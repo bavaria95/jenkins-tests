@@ -3,6 +3,8 @@ node ('docker-slave') {
     docker.withRegistry('https://gitlab-registry.cern.ch', 'ba4fc2f2-51c5-4a97-b1b2-b80ee5b2b43d') {
       
       sh '''
+        pwd
+        ls
         COMMITHASH=$(git rev-parse HEAD)
         echo $COMMITHASH
       '''
