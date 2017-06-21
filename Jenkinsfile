@@ -1,6 +1,4 @@
-pipeline {
-  agent {label 'docker-slave'}
-
+node ('docker-slave') {
   stages {
     stage('Build') {
         docker.withRegistry('https://gitlab-registry.cern.ch', 'ba4fc2f2-51c5-4a97-b1b2-b80ee5b2b43d') {
@@ -23,6 +21,7 @@ pipeline {
 
     stage('Test') {
       withCredentials([file(credentialsId: 'K8S_CA', variable: 'K8S_CA'), file(credentialsId: 'K8S_CERT', variable: 'K8S_CERT'), file(credentialsId: 'K8S_CONFIG', variable: 'K8S_CONFIG'), file(credentialsId: 'K8S_KEY', variable: 'K8S_KEY')]) {
+
         def statusCode = sh returnStatus: true, script: '''
           sed -i -e "s|ca.pem|$K8S_CA|g" $K8S_CONFIG
           sed -i -e "s|cert.pem|$K8S_CERT|g" $K8S_CONFIG
