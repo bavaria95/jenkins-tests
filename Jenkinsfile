@@ -13,8 +13,8 @@ node ('docker-slave') {
 
         env.COMMITHASH = sh returnStdout: true, script: 'git rev-parse HEAD | tr -d "\n"'
 
-        // def newApp = docker.build("dpetruk/kubernetes-testing-deploy/inspire-base:${COMMITHASH}")
-        // newApp.push()
+        def newApp = docker.build("dpetruk/kubernetes-testing-deploy/inspire-base:${COMMITHASH}")
+        newApp.push()
       }
     }
 
